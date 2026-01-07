@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { navigateToUrl } from "single-spa";
+import AccordionSection from "../AccordionSection/AccordionSection";
+import { groupFieldsBySection } from "../../utils/sectionUtils";
+import { filterFieldsByConditions } from "../../utils/conditionUtils";
 import "./FormPreview.css";
 
 const formatDateLong = (dateString) => {
@@ -21,44 +25,35 @@ const FieldValue = ({ field }) => {
     case "email":
     case "number":
     case "date":
-      return <div className={baseClass}>{field.response || "—"}</div>;
+      return <div className={baseClass}>{field.placeholder || "—"}</div>;
     case "textarea":
       return (
         <div className={`${baseClass} ${baseClass}--textarea`}>
-          {field.response || "—"}
+          {field.placeholder || "—"}
         </div>
       );
     case "select":
-      return <div className={`${baseClass} ${baseClass}--select`}>{field.response || "—"}</div>;
+      return <div className={`${baseClass} ${baseClass}--select`}>{field.placeholder || "Select option"}</div>;
     case "checkbox":
       return (
         <div className={`${baseClass} ${baseClass}--checkbox`}>
-          {(field.options || []).map((option) => {
-            const isChecked = Array.isArray(field.response) && field.response.includes(option);
-            return (
-              <div
-                key={option}
-                className={`field-checkbox${isChecked ? " is-checked" : ""}`}
-              >
-                <span className="field-checkbox__icon">{isChecked ? "☑" : "☐"}</span>
-                <span>{option}</span>
-              </div>
-            );
-          })}
+          {(field.options || []).map((option) => (
+            <div key={option} className="field-checkbox">
+              <span className="field-checkbox__icon">☐</span>
+              <span>{option}</span>
+            </div>
+          ))}
         </div>
       );
     case "radio":
       return (
         <div className={baseClass}>
-          {(field.options || []).map((option) => {
-            const isSelected = field.response === option;
-            return (
-              <div key={option} className={`field-radio${isSelected ? " is-selected" : ""}`}>
-                <span className="field-radio__icon">{isSelected ? "◉" : "○"}</span>
-                <span>{option}</span>
-              </div>
-            );
-          })}
+          {(field.options || []).map((option) => (
+            <div key={option} className="field-radio">
+              <span className="field-radio__icon">○</span>
+              <span>{option}</span>
+            </div>
+          ))}
         </div>
       );
     default:
@@ -66,8 +61,30 @@ const FieldValue = ({ field }) => {
   }
 };
 
-export default function FormPreview({ form, onEdit, onSave, editMode, isSaving }) {
+export default function FormPreview({ form, onSave, isSaving }) {
+  // For preview mode, we show all fields (no form values to evaluate)
+  // In a real form-filling scenario, you'd pass formValues here
+  const formValues = {};
+
+  const sections = useMemo(() => {
+    if (!form || !form.fields) return [];
+    
+    // Filter fields based on conditions
+    // In preview mode with no values, fields with conditions won't show
+    // In actual form filling, formValues would be populated
+    const visibleFields = filterFieldsByConditions(form.fields, formValues);
+    
+    return groupFieldsBySection(visibleFields);
+  }, [form, formValues]);
+
   if (!form) return null;
+
+  const handleEditClick = () => {
+    // Navigate to form-builder with formId only
+    // This allows the builder to fetch the latest data from Firebase
+    window.history.pushState({ formId: form.id }, "", "/form-builder");
+    navigateToUrl("/form-builder");
+  };
 
   return (
     <div className="form-preview">
@@ -82,30 +99,30 @@ export default function FormPreview({ form, onEdit, onSave, editMode, isSaving }
           </p>
         </div>
         <div className="form-preview__actions">
-          <button type="button" className="btn btn--ghost" onClick={onEdit}>
-            {editMode ? "Cancel" : "Edit"}
-          </button>
-          <button
-            type="button"
-            className="btn btn--primary"
-            onClick={onSave}
-            disabled={isSaving}
-          >
-            {isSaving ? "Saving..." : "Save"}
+          <button type="button" className="edit-button" onClick={handleEditClick}>
+            Edit Form
           </button>
         </div>
       </div>
 
       <div className="form-preview__fields">
-        {(form.fields || []).map((field) => (
-          <div key={field.id || field.label} className="field-card">
-            <div className="field-card__label">
-              <span>{field.label}</span>
-              {field.required && <span className="field-card__required">Required</span>}
-            </div>
-            <p className="field-card__type">{field.type}</p>
-            <FieldValue field={field} />
-          </div>
+        {sections.map((section, index) => (
+          <AccordionSection
+            key={index}
+            title={section.title}
+            defaultExpanded={index === 0}
+          >
+            {section.fields.map((field) => (
+              <div key={field.id || field.label} className="field-card">
+                <div className="field-card__label">
+                  <span>{field.label}</span>
+                  {field.required && <span className="field-card__required">Required</span>}
+                </div>
+                <p className="field-card__type">{field.type}</p>
+                <FieldValue field={field} />
+              </div>
+            ))}
+          </AccordionSection>
         ))}
       </div>
     </div>

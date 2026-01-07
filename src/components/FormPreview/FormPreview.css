@@ -179,3 +179,18 @@
   color: var(--color-primary);
 }
 
+.edit-button {
+  padding: 6px 12px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.edit-button:hover {
+  opacity: 0.9;
+}
