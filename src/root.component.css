@@ -1,0 +1,42 @@
+:root {
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif);
+  background: var(--color-bg);
+}
+
+.app-shell {
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  height: calc(100vh - 160px);
+  background: var(--color-bg);
+}
+
+.app-preview {
+  background: var(--color-surface);
+  overflow-y: auto;
+  padding: var(--space-xxl);
+}
+
+.app-banner {
+  margin-bottom: var(--space-md);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+}
+
+.app-banner--error {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+  background: rgba(239, 68, 68, 0.06);
+}
+

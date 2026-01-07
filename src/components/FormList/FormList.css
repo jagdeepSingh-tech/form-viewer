@@ -1,0 +1,119 @@
+.form-list {
+  width: 360px;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.form-list__header {
+  padding: var(--space-xxl);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.form-list__eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-subtle);
+  margin: 0 0 var(--space-xs);
+}
+
+.form-list__title {
+  margin: 0 0 var(--space-sm);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.form-list__subtitle {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.form-list__items {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md);
+  background: var(--color-surface-muted);
+}
+
+.form-list-item {
+  width: 100%;
+  border: 1px solid transparent;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, box-shadow 160ms ease,
+    transform 160ms ease, background 160ms ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.form-list-item:not(:last-child) {
+  margin-bottom: var(--space-md);
+}
+
+.form-list-item:hover {
+  border-color: var(--color-border);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-elevated);
+}
+
+.form-list-item.is-active {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  box-shadow: var(--shadow-elevated);
+}
+
+.form-list-item__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.form-list-item__title {
+  margin: 0;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.form-list-item__date {
+  margin: 0;
+  color: var(--color-subtle);
+  font-size: 12px;
+}
+
+.form-list-item__description {
+  margin: var(--space-sm) 0 var(--space-md);
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.form-list-item__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-subtle);
+  font-size: 13px;
+}
+
+.form-list-item__tag {
+  background: var(--color-surface-muted);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.form-list-item__chevron {
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
