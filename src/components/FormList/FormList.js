@@ -18,18 +18,15 @@ function FormListItem({ form, isActive, onSelect }) {
       className={`form-list-item${isActive ? " is-active" : ""}`}
       onClick={() => onSelect(form.id)}
     >
-      <div className="form-list-item__meta">
+      <div className="form-list-item__row">
         <div className="form-list-item__title">{form.title}</div>
-        <div className="form-list-item__date">
-          Updated {formatDate(form.updatedAt || form.createdAt || form.createdDate)}
-        </div>
+        <div className="form-list-item__chevron">→</div>
       </div>
-      <p className="form-list-item__description">{form.description || "Form without description"}</p>
-      <div className="form-list-item__footer">
+      <div className="form-list-item__row">
+        <p className="form-list-item__description">{form.description || "No description"}</p>
         <span className="form-list-item__tag">
           {Array.isArray(form.fields) ? `${form.fields.length} fields` : "0 fields"}
         </span>
-        <span className="form-list-item__chevron">→</span>
       </div>
     </button>
   );
