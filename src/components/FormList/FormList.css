@@ -44,7 +44,7 @@
 .form-list-item {
   width: 100%;
   border: 1px solid transparent;
-  background: var(--color-surface);
+  background: var(--card-bg);
   border-radius: var(--radius-md);
   padding: var(--space-xl);
   text-align: left;
@@ -116,4 +116,3 @@
   font-weight: 600;
   color: var(--color-muted);
 }
-

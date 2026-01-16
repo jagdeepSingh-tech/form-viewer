@@ -16,6 +16,12 @@ export default function Root() {
 
   useEffect(() => {
     applyTheme();
+
+    const handler = (e) => {
+      document.documentElement.setAttribute("data-theme", e.detail);
+    };
+    window.addEventListener("theme-change", handler);
+    return () => window.removeEventListener("theme-change", handler);
   }, []);
 
   useEffect(() => {
