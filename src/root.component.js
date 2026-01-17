@@ -10,9 +10,17 @@ import "./root.component.css";
 export default function Root() {
   const [forms, setForms] = useState([]);
   const [selectedFormId, setSelectedFormId] = useState(null);
+  const [statusFilter, setStatusFilter] = useState("active"); // NEW: active | archived
   const [editMode, setEditMode] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const showToast = (message, actionLabel = null, onAction = null, type = "info") => {
+    window.dispatchEvent(
+      new CustomEvent("global-toast", {
+        detail: { type, message, actionLabel, onAction }
+      })
+    );
+  };
 
   useEffect(() => {
     applyTheme();
@@ -34,14 +42,14 @@ export default function Root() {
         }
         return incomingForms[0].id;
       });
-    });
+    }, statusFilter);
 
     return () => {
       if (typeof unsubscribe === "function") {
         unsubscribe();
       }
     };
-  }, []);
+  }, [statusFilter]);
 
   const selectedForm = useMemo(
     () => forms.find((form) => form.id === selectedFormId) || null,
@@ -65,6 +73,7 @@ export default function Root() {
     try {
       await updateForm(selectedForm.id, { ...selectedForm });
       setEditMode(false);
+      showToast("Form saved successfully", null, null, "success");
     } catch (error) {
       setErrorMessage("Unable to save changes. Please retry.");
     } finally {
@@ -76,7 +85,29 @@ export default function Root() {
     <div className="app-shell">
       <Header />
       <main className="app-main">
-        <FormList forms={forms} selectedFormId={selectedFormId} onSelect={handleSelectForm} />
+        <aside className="app-sidebar">
+          <div className="status-tabs">
+            <button
+              className={`status-tab ${statusFilter === 'active' ? 'status-tab--active' : ''}`}
+              onClick={() => setStatusFilter('active')}
+            >
+              Active
+            </button>
+            <button
+              className={`status-tab ${statusFilter === 'archived' ? 'status-tab--active' : ''}`}
+              onClick={() => setStatusFilter('archived')}
+            >
+              Archived
+            </button>
+          </div>
+          <FormList
+            forms={forms}
+            selectedFormId={selectedFormId}
+            onSelect={handleSelectForm}
+            status={statusFilter}
+            showToast={showToast}
+          />
+        </aside>
         <section className="app-preview">
           {selectedForm ? (
             <>

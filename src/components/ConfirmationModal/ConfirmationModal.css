@@ -1,0 +1,198 @@
+.confirmation-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.confirmation-modal {
+    background: var(--bg-primary);
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    max-width: 480px;
+    width: 90%;
+    animation: slideUp 0.2s ease;
+}
+
+:root[data-theme="dark"] .confirmation-modal {
+    background: var(--card-bg);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.confirmation-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.confirmation-modal__title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.confirmation-modal__close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.confirmation-modal__close:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+}
+
+:root[data-theme="dark"] .confirmation-modal__close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.confirmation-modal__body {
+    padding: 24px;
+}
+
+.confirmation-modal__message {
+    margin: 0 0 20px 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.confirmation-modal__input-group {
+    margin-top: 16px;
+}
+
+.confirmation-modal__label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.confirmation-modal__label strong {
+    color: var(--accent);
+    font-family: monospace;
+}
+
+.confirmation-modal__input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: monospace;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.confirmation-modal__input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+:root[data-theme="dark"] .confirmation-modal__input {
+    background: rgba(15, 23, 42, 0.6);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+:root[data-theme="dark"] .confirmation-modal__input:focus {
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+}
+
+.confirmation-modal__footer {
+    display: flex;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--border-color);
+    justify-content: flex-end;
+}
+
+.confirmation-modal__button {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-family: inherit;
+}
+
+.confirmation-modal__button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.confirmation-modal__button--cancel {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.confirmation-modal__button--cancel:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+:root[data-theme="dark"] .confirmation-modal__button--cancel:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.confirmation-modal__button--confirm {
+    background: var(--accent);
+    color: white;
+}
+
+.confirmation-modal__button--confirm:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+.confirmation-modal__button--danger {
+    background: #ef4444;
+}
+
+.confirmation-modal__button--danger:hover:not(:disabled) {
+    background: #dc2626;
+}

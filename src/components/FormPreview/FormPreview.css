@@ -121,13 +121,18 @@
 }
 
 .field-card__required {
-  color: var(--color-danger);
+  color: var(--accent);
   background: transparent;
   border: none;
   padding: 0;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: 2px;
 }
 
+:root[data-theme="dark"] .field-card__required {
+  color: var(--accent);
+}
 
 .field-card__type {
   margin: 0 0 var(--space-sm);

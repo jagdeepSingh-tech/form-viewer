@@ -68,12 +68,12 @@ export default function FormPreview({ form, onSave, isSaving }) {
 
   const sections = useMemo(() => {
     if (!form || !form.fields) return [];
-    
+
     // Filter fields based on conditions
     // In preview mode with no values, fields with conditions won't show
     // In actual form filling, formValues would be populated
     const visibleFields = filterFieldsByConditions(form.fields, formValues);
-    
+
     return groupFieldsBySection(visibleFields);
   }, [form, formValues]);
 
@@ -112,16 +112,21 @@ export default function FormPreview({ form, onSave, isSaving }) {
             title={section.title}
             defaultExpanded={index === 0}
           >
-            {section.fields.map((field) => (
-              <div key={field.id || field.label} className="field-card">
-                <div className="field-card__label">
-                  <span>{field.label}</span>
-                  {field.required && <span className="field-card__required">Required</span>}
+            {section.fields.map((field) => {
+              // Check both field.required and field.validations.required for backward compatibility
+              const isRequired = field.required === true || field.validations?.required === true;
+
+              return (
+                <div key={field.id || field.label} className="field-card">
+                  <div className="field-card__label">
+                    <span>{field.label}</span>
+                    {isRequired && <span className="field-card__required">*</span>}
+                  </div>
+                  <p className="field-card__type">{field.type}</p>
+                  <FieldValue field={field} />
                 </div>
-                <p className="field-card__type">{field.type}</p>
-                <FieldValue field={field} />
-              </div>
-            ))}
+              );
+            })}
           </AccordionSection>
         ))}
       </div>
